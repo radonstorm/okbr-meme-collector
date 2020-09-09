@@ -1,0 +1,4 @@
+praw==7.1.0
+requests==2.24.0
+python-slugify==4.0.1
+youtube-dl
