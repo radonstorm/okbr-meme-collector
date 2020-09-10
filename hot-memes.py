@@ -22,6 +22,8 @@ reddit = praw.Reddit(
 # loop through top 25 posts
 for post in reddit.subreddit('okbuddyretard').top('day', limit=25):
     filename = slugify(post.title)
+    if filename == '':
+        filename = slugify(post.id)
     # handle image posts
     if 'i.redd.it' in post.url:
         img = requests.get(post.url).content
@@ -31,7 +33,8 @@ for post in reddit.subreddit('okbuddyretard').top('day', limit=25):
     # handle video posts
     elif 'v.redd.it' in post.url:
         ytdl_opts = {
-            'outtmpl': image_directory + f'/{filename}.%(ext)s'
+            'outtmpl': image_directory + f'/{filename}.%(ext)s',
+            'quiet': True
         }
         with youtube_dl.YoutubeDL(ytdl_opts) as ytdl:
             ytdl.download([post.url])
